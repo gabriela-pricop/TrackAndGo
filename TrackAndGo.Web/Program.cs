@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using TrackAndGo.Application.Queries;
 using TrackAndGo.Infrastructure.Data;
 
 namespace TrackAndGo.Web
@@ -19,6 +20,8 @@ namespace TrackAndGo.Web
 
             builder.Services.AddDbContext<TrackAndGoDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetHotelsQueryHandler).Assembly));
 
             var app = builder.Build();
 
