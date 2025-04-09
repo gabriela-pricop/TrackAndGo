@@ -1,0 +1,6 @@
+@TrackAndGo.Web_HostAddress = http://localhost:5014
+
+GET {{TrackAndGo.Web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
