@@ -22,6 +22,11 @@ namespace TrackAndGo.Infrastructure.Data
             await SaveAsync(cancellationToken);
         }
 
+        public Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<bool> ExistsOrThrowsAsync(int id, CancellationToken cancellationToken = default)
         {
             var result = await _dbSet.AnyAsync(x => x.Id == id, cancellationToken);
@@ -32,10 +37,15 @@ namespace TrackAndGo.Infrastructure.Data
             return true;
         }
 
-        public IQueryable<T> Read(bool track = false)
+        public IQueryable<T> GetAll(bool track = false)
         {
             var query = _dbSet.AsQueryable();
             return track ? query : query.AsNoTracking();
+        }
+
+        public IQueryable<T> GetAllPaged(int pageNumber, int pageSize)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task RemoveAsync(int id, CancellationToken cancellationToken = default)
@@ -45,9 +55,24 @@ namespace TrackAndGo.Infrastructure.Data
             await SaveAsync(cancellationToken);
         }
 
+        public Task RemoveAsync(T entity, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task SaveAsync(CancellationToken cancellationToken = default)
         {
             await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public Task<T> TryGetByIdOrThrowAsync(int id, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
