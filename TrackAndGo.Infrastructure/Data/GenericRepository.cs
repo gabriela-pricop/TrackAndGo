@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TrackAndGo.Application.Abstractions;
 using TrackAndGo.Application.Exceptions;
 using TrackAndGo.Domain.Entities;

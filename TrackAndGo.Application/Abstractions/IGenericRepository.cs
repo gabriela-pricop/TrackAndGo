@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TrackAndGo.Domain.Entities;
-
-namespace TrackAndGo.Application.Abstractions
+﻿namespace TrackAndGo.Application.Abstractions
 {
-    public interface IGenericRepository<T> where T : BaseEntity
+    public interface IGenericRepository<T> where T : class
     {
         Task AddAsync(T entity, CancellationToken cancellationToken = default);
         Task RemoveAsync(int id, CancellationToken cancellationToken = default);
