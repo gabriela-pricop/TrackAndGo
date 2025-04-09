@@ -39,11 +39,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
                 .WithOne(x => x.PointOfInterest)
                 .HasForeignKey(x => x.PointOfInterestId)
                 .OnDelete(DeleteBehavior.Restrict);
-                
-         
-
-
-
         }
     }
 }

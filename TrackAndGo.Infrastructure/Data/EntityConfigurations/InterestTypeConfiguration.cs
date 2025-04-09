@@ -19,7 +19,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
                 .WithOne(x => x.InterestType)
                 .HasForeignKey(x => x.InterestTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
-              
         }
     }
 }

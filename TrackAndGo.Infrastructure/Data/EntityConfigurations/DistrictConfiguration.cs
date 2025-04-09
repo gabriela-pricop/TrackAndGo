@@ -19,8 +19,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
                 .WithOne(x => x.District)
                 .HasForeignKey(x => x.DistrictId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
         }
     }
 }

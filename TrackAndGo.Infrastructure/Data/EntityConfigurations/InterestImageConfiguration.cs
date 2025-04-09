@@ -19,8 +19,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
                 .WithMany(x => x.Images)
                 .HasForeignKey(x => x.PointOfInterestId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
         }
     }
 }
