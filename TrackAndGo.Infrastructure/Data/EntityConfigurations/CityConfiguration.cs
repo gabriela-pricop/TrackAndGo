@@ -24,8 +24,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
             .WithOne(x => x.City)
             .HasForeignKey(x =>x.CityId)
             .OnDelete(DeleteBehavior.Restrict);
-
-
         }
     }
 }

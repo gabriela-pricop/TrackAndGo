@@ -26,8 +26,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
             builder.Property(x => x.Distance).IsRequired();
             //pentru campurile value type nu e obligatoriu sa pui is required, este by default
             //la string trebuie numaidecat
-
-
         }
     }
 }

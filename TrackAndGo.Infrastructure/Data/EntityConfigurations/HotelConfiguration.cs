@@ -22,8 +22,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
             builder.HasMany(x => x.PointOfInterestHotels).WithOne(x => x.Hotel); //legatura, lucreaza prin navigationla properties
             builder.Property(x => x.Latitude).HasColumnType("decimal(9,6)").IsRequired();
             builder.Property(x => x.Longitude).HasColumnType("decimal(9,6)").IsRequired();
-
-
         }
     }
 }
