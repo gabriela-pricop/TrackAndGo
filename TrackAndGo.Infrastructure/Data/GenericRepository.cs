@@ -22,7 +22,7 @@ namespace TrackAndGo.Infrastructure.Data
             await SaveAsync(cancellationToken);
         }
 
-        public async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default) //check---------------
+        public async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
             await _dbSet.AddRangeAsync(entities, cancellationToken);
             await SaveAsync(cancellationToken);
