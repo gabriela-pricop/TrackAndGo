@@ -14,9 +14,5 @@
         public  City City { get; set; } = new(); //navigation property
         public  ICollection<InterestImage> Images { get; set; } = [];
         public ICollection<PointOfInterestHotel> PointOfInterestHotels { get; set; } = [];
-
-
-
-
     }
 }

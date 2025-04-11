@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TrackAndGo.Application\TrackAndGo.Application.csproj" />
     <ProjectReference Include="..\TrackAndGo.Infrastructure\TrackAndGo.Infrastructure.csproj" />
   </ItemGroup>
 
