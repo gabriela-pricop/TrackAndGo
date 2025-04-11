@@ -1,5 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
+using TrackAndGo.Application.Abstractions;
+using TrackAndGo.Application.Mappings;
 using TrackAndGo.Application.Queries;
 using TrackAndGo.Infrastructure.Data;
 
@@ -21,6 +23,8 @@ namespace TrackAndGo.Web
             builder.Services.AddDbContext<TrackAndGoDbContext>(options => 
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetHotelsQueryHandler).Assembly));
 
             var app = builder.Build();
