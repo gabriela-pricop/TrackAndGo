@@ -22,9 +22,10 @@ namespace TrackAndGo.Infrastructure.Data
             await SaveAsync(cancellationToken);
         }
 
-        public Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default) //check---------------
         {
-            throw new NotImplementedException();
+            await _dbSet.AddRangeAsync(entities, cancellationToken);
+            await SaveAsync(cancellationToken);
         }
 
         public async Task<bool> ExistsOrThrowsAsync(int id, CancellationToken cancellationToken = default)
@@ -43,9 +44,22 @@ namespace TrackAndGo.Infrastructure.Data
             return track ? query : query.AsNoTracking();
         }
 
-        public IQueryable<T> GetAllPaged(int pageNumber, int pageSize)
+        public IQueryable<T> GetAllPaged(int pageNumber, int pageSize) 
         {
-            throw new NotImplementedException();
+            if (pageNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageNumber), "Page number must be greater than 0.");
+            }
+
+            if (pageSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size must be greater than 0.");
+            }
+
+            return _dbSet 
+                .AsNoTracking()
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize);
         }
 
         public async Task RemoveAsync(int id, CancellationToken cancellationToken = default)
@@ -61,9 +75,15 @@ namespace TrackAndGo.Infrastructure.Data
             await SaveAsync(cancellationToken);
         }
 
-        public Task RemoveAsync(T entity, CancellationToken cancellationToken = default)
+        public async Task RemoveAsync(T entity, CancellationToken cancellationToken = default) 
         {
-            throw new NotImplementedException();
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity), "The entity to remove cannot be null.");
+            }
+
+            _dbSet.Remove(entity);
+            await SaveAsync(cancellationToken);
         }
 
         public async Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
