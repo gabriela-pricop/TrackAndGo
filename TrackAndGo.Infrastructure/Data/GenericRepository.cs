@@ -50,7 +50,13 @@ namespace TrackAndGo.Infrastructure.Data
 
         public async Task RemoveAsync(int id, CancellationToken cancellationToken = default)
         {
-            var entity = await _dbSet.FirstAsync(x => x.Id == id, cancellationToken);
+            var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+ 
+            if (entity == null)
+            {
+                throw new EntityNotFoundException(typeof(T), id);
+            }
+
             _dbSet.Remove(entity);
             await SaveAsync(cancellationToken);
         }
@@ -60,9 +66,10 @@ namespace TrackAndGo.Infrastructure.Data
             throw new NotImplementedException();
         }
 
-        public Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+        public async Task RemoveRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            _dbSet.RemoveRange(entities);
+            await SaveAsync(cancellationToken);
         }
 
         public async Task SaveAsync(CancellationToken cancellationToken = default)
@@ -70,9 +77,16 @@ namespace TrackAndGo.Infrastructure.Data
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public Task<T> TryGetByIdOrThrowAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<T> TryGetByIdOrThrowAsync(int id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+            if (entity == null)
+            {
+                throw new EntityNotFoundException(typeof(T), id);
+            }
+
+            return entity;
         }
 
         public async Task<T> UpdateAsync(T entity, CancellationToken cancellationToken = default)
