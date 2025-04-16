@@ -21,21 +21,16 @@ namespace TrackAndGo.Infrastructure.Data
         public DbSet<District> Districts { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<InterestImage> InterestImages { get; set; }
-        public DbSet<InterestType> InterestTypes { get; set; }
         public DbSet<PointOfInterest> PointOfInterests { get; set; }
         public DbSet<PointOfInterestHotel> PointOfInterestHotels { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //ii spunem sa aplice fisierele de configurari
-            //seed
-            //configurari generale
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            SeedDistricts.Seed(modelBuilder); //static nu trebuie sa creem obiect
+            SeedDistricts.Seed(modelBuilder);
             SeedCities.Seed(modelBuilder);
-            SeedInterestTypes.Seed(modelBuilder);
         }
     }
 }

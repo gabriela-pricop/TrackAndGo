@@ -15,11 +15,6 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
             builder.Property(x => x.Latitude).HasColumnType("decimal(9,6)").IsRequired();
             builder.Property(x => x.Longitude).HasColumnType("decimal(9,6)").IsRequired();
 
-            builder.HasOne(x => x.InterestType)
-                .WithMany(x => x.PointOfInterests)
-                .HasForeignKey(x => x.InterestTypeId) //de la navigational property inapoi
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne(x => x.City)
                 .WithMany(x => x.PointOfInterests)
                 .HasForeignKey(x => x.CityId)
