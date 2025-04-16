@@ -9,6 +9,9 @@ namespace TrackAndGo.Application.Mappings
         public MappingProfile()
         {
             CreateMap<Hotel, HotelDto>().ReverseMap();
+            CreateMap<CreatePointOfInterestDto, PointOfInterest>();
+            CreateMap<PointOfInterest, GetPointOfInterestDto>();
+            CreateMap<InterestImage, InterestImageDto>().ReverseMap();
         }
     }
 }
