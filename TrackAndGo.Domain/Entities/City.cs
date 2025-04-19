@@ -2,10 +2,10 @@
 {
     public class City : BaseEntity
     {
-        public string Name { get; set; } = string.Empty;//valoare default
+        public string Name { get; set; } = string.Empty;
         public int DistrictId { get; set; }
-        public District District { get; set; }//navigational property, nu este camp
-        //se adauga doar in disrectia legaturii
+        public District District { get; set; }
+        public List<Hotel> Hotels { get; set; }
         public ICollection<PointOfInterest> PointOfInterests { get; set; } = [];
     }
 }

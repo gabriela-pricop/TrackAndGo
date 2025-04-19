@@ -8,7 +8,7 @@ namespace TrackAndGo.Application.Commands
 {
     public class AddHotelCommand : IRequest<Unit>
     {
-        public HotelDto Hotel { get; set; } = new();
+        public CreateHotelDto Hotel { get; set; } = new();
     }
 
     public class AddHotelCommandHandler : IRequestHandler<AddHotelCommand, Unit>
