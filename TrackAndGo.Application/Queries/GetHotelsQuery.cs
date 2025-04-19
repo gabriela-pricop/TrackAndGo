@@ -1,38 +1,44 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TrackAndGo.Application.Abstractions;
 using TrackAndGo.Application.DTOs;
 using TrackAndGo.Domain.Entities;
 
 namespace TrackAndGo.Application.Queries
 {
-    public class GetHotelsQuery : IRequest<List<HotelDto>>
+    public class GetHotelsQuery : IRequest<List<GetHotelDto>>
     {
 
     }
 
-    public class GetHotelsQueryHandler : IRequestHandler<GetHotelsQuery, List<HotelDto>>
+    public class GetHotelsQueryHandler : IRequestHandler<GetHotelsQuery, List<GetHotelDto>>
     {
         private readonly IGenericRepository<Hotel> _genericRepository;
-        private readonly IMapper _mapper;
 
-        public GetHotelsQueryHandler(IGenericRepository<Hotel> genericRepository, IMapper mapper)
+        public GetHotelsQueryHandler(IGenericRepository<Hotel> genericRepository)
         {
             _genericRepository = genericRepository;
-            _mapper = mapper;
         }
 
-        public Task<List<HotelDto>> Handle(GetHotelsQuery request, CancellationToken cancellationToken)
+        public async Task<List<GetHotelDto>> Handle(GetHotelsQuery request, CancellationToken cancellationToken)
         {
-            var hotels = _genericRepository.GetAll().ToList();
+            var hotels = await _genericRepository
+                .GetAll()
+                .Include(x => x.City)
+                    .ThenInclude(x => x.District)
+                .Select(x => new GetHotelDto
+                {
+                    Name = x.Name,
+                    Phone = x.Phone,
+                    Latitude = x.Latitude,
+                    Longitude = x.Longitude,
+                    FullAddress = x.Address == null ? $"{x.City.Name}, {x.City.District.Name}" : $"{x.Address}, {x.City.Name}, {x.City.District.Name}"
+                })
+                .ToListAsync(cancellationToken);
 
-            if (hotels.Count != 0)
-            {
-                var hotelDtos = _mapper.Map<List<HotelDto>>(hotels);
-                return Task.FromResult(hotelDtos);
-            }
 
-            return Task.FromResult(new List<HotelDto>());
+            return hotels;
         }
     }
 }
