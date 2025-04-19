@@ -14,6 +14,7 @@ namespace TrackAndGo.Infrastructure.Data.EntityConfigurations
             builder.Property(x => x.WebsiteUrl).HasMaxLength(500);
             builder.Property(x => x.Latitude).HasColumnType("decimal(9,6)").IsRequired();
             builder.Property(x => x.Longitude).HasColumnType("decimal(9,6)").IsRequired();
+            builder.Property(x => x.Address).HasMaxLength(100);
 
             builder.HasOne(x => x.City)
                 .WithMany(x => x.PointOfInterests)

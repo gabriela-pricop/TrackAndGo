@@ -16,7 +16,7 @@ namespace TrackAndGo.Application.DTOs
         public string ImageUrl { get; set; } = string.Empty;
         public string? WebsiteUrl { get; set; }
         public InterestTypeEnum Type { get; set; }
-        public string Address { get; set; } = string.Empty;
+        public string FullAddress { get; set; } = string.Empty;
         public List<InterestImageDto> Images { get; set; } = [];
     }
 }
