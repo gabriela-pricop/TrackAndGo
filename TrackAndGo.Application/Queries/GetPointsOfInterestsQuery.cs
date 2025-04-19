@@ -54,7 +54,7 @@ namespace TrackAndGo.Application.Queries
                 .Select(x => new PointsOfInterestDto
                 {
                     Name = x.Name,
-                    Address = $"{x.City.Name}, {x.City.District.Name}",
+                    FullAddress = x.Address == null ? $"{x.City.Name}, {x.City.District.Name}" : $"{x.Address}, {x.City.Name}, {x.City.District.Name}",
                     ImageUrl = x.ImageUrl,
                     Type = (InterestTypeEnum)x.InterestTypeId
                 })

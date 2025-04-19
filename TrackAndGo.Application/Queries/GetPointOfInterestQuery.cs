@@ -43,7 +43,9 @@ namespace TrackAndGo.Application.Queries
             var dto = _mapper.Map<GetPointOfInterestDto>(pointOfInterest);
 
             // Manually construct the Address property
-            dto.Address = $"{pointOfInterest.City.Name}, {pointOfInterest.City.District.Name}";
+            dto.FullAddress = pointOfInterest.Address is null
+                ? $"{pointOfInterest.City.Name}, {pointOfInterest.City.District.Name}"
+                : $"{pointOfInterest.Address}, {pointOfInterest.City.Name}, {pointOfInterest.City.District.Name}";
 
             // Map the InterestTypeId to the Type property
             dto.Type = (InterestTypeEnum)pointOfInterest.InterestTypeId;
