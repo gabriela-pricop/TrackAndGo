@@ -3,7 +3,9 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TrackAndGo.Application.Abstractions;
 using TrackAndGo.Application.DTOs;
+using TrackAndGo.Application.Exceptions;
 using TrackAndGo.Domain.Entities;
+using TrackAndGo.Shared.Enums;
 
 namespace TrackAndGo.Application.Queries
 {
@@ -27,10 +29,26 @@ namespace TrackAndGo.Application.Queries
         {
             var pointOfInterest = await _genericRepository
                 .GetAll()
-                .Include(x => x.Images)
-                .FirstAsync(x => x.Id == request.Id, cancellationToken);
+                .Include(x => x.Images) // Include related images
+                .Include(x => x.City) // Include related city
+                    .ThenInclude(city => city.District) // Include related district
+                .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            return _mapper.Map<GetPointOfInterestDto>(pointOfInterest);
+            if (pointOfInterest is null)
+            {
+                throw new EntityNotFoundException(typeof(PointOfInterest), request.Id);
+            }
+
+            // Map the entity to the DTO
+            var dto = _mapper.Map<GetPointOfInterestDto>(pointOfInterest);
+
+            // Manually construct the Address property
+            dto.Address = $"{pointOfInterest.City.Name}, {pointOfInterest.City.District.Name}";
+
+            // Map the InterestTypeId to the Type property
+            dto.Type = (InterestTypeEnum)pointOfInterest.InterestTypeId;
+
+            return dto;
         }
     }
 }
