@@ -10,7 +10,7 @@ namespace TrackAndGo.Application.Queries
 {
     public class GetPointsOfInterestsQuery : IRequest<PaginatedResult<PointsOfInterestDto>>
     {
-        public InterestTypeEnum? Type { get; set; }
+        public List<InterestTypeEnum>? Types { get; set; }
         public string? SearchTerm {  get; set; }
         public int PageSize { get; set; } = 10;
         public int PageNumber { get; set; } = 1;
@@ -30,9 +30,14 @@ namespace TrackAndGo.Application.Queries
         {
             var query = _genericRepository.GetAll();
 
-            if (request.Type is not null)
+            if (request.Types!.Count > 0)
             {
-                query = query.Where(x => x.InterestTypeId == request.Type.GetGuid());
+                var interestTypeInts = request.Types.Select(t => t.GetGuid()).ToList();
+
+                if (interestTypeInts.Count > 0)
+                {
+                    query = query.Where(x => interestTypeInts.Contains(x.InterestTypeId));
+                }
             }
 
             if (!string.IsNullOrWhiteSpace(request.SearchTerm))
@@ -50,7 +55,8 @@ namespace TrackAndGo.Application.Queries
                 {
                     Name = x.Name,
                     Address = $"{x.City.Name}, {x.City.District.Name}",
-                    ImageUrl = x.ImageUrl
+                    ImageUrl = x.ImageUrl,
+                    Type = (InterestTypeEnum)x.InterestTypeId
                 })
                 .ToListAsync(cancellationToken);
 
