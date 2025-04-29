@@ -27,6 +27,7 @@ namespace TrackAndGo.Web
             builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetHotelsQueryHandler).Assembly));
+            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetPointsOfInterestQueryHandler).Assembly));
 
             var app = builder.Build();
 
