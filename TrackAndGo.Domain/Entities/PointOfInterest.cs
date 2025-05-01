@@ -11,8 +11,8 @@
         public double Longitude { get; set; }
         public string? Address { get; set; }
         public int CityId { get; set; }
-        public  City City { get; set; } = new();
+        public  City City { get; set; }
         public  ICollection<InterestImage> Images { get; set; } = [];
-        public ICollection<PointOfInterestHotel> PointOfInterestHotels { get; set; } = [];
+        public ICollection<PointOfInterestHotel> PointOfInterestHotels { get; set; }
     }
 }
