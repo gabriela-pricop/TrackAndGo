@@ -4,6 +4,7 @@ using TrackAndGo.Application.Abstractions;
 using TrackAndGo.Application.Mappings;
 using TrackAndGo.Application.Queries;
 using TrackAndGo.Infrastructure.Data;
+using TrackAndGo.Web.Middlewares;
 
 namespace TrackAndGo.Web
 {
@@ -30,6 +31,8 @@ namespace TrackAndGo.Web
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetPointsOfInterestQueryHandler).Assembly));
 
             var app = builder.Build();
+
+            app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

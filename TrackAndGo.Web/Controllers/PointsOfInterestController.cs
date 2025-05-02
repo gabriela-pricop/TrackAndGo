@@ -22,8 +22,13 @@ namespace TrackAndGo.Web.Controllers
         public async Task<IActionResult> GetPointsOfInterest(
         [FromQuery] List<InterestTypeEnum>? types, 
         [FromQuery] string? searchTerm,           
-        [FromQuery] int pageNumber = 1,                    [FromQuery] int pageSize = 10)            
+        [FromQuery] int pageNumber = 1,
+        [FromQuery] int pageSize = 10)            
         {
+            if (pageNumber <= 0 || pageSize <= 0)
+            {
+                return BadRequest("Page number and page size must be greater than 0.");
+            }
 
             var query = new GetPointsOfInterestsQuery
             {
