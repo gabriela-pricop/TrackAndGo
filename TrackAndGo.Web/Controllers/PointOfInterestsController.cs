@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrackAndGo.Application.Abstractions;
@@ -12,6 +13,7 @@ namespace TrackAndGo.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class PointOfInterestsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -41,6 +43,7 @@ namespace TrackAndGo.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddPointOfInterest([FromBody] CreatePointOfInterestDto pointOfInterestDto)
         {
             if (pointOfInterestDto == null)

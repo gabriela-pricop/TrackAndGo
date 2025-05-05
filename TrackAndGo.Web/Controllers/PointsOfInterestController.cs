@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrackAndGo.Application.DTOs;
@@ -9,6 +10,7 @@ namespace TrackAndGo.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class PointsOfInterestController : ControllerBase
     {
         private readonly IMediator _mediator;
