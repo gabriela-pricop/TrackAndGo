@@ -29,8 +29,7 @@ namespace TrackAndGo.Application.DTOs
         [StringLength(100, ErrorMessage = "Address must not exceed 100 characters.")]
         public string? Address { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "CityId must be a positive number.")]
+        [Required(ErrorMessage = "City is required")]
         public int CityId { get; set; }
     }
 }

@@ -36,7 +36,6 @@ namespace TrackAndGo.Application.DTOs
         public string? WebsiteUrl { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "InterestTypeEnum must be a positive number.")]
         public InterestTypeEnum Type { get; set; }
 
 
