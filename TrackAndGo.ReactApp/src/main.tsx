@@ -4,12 +4,15 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import { AuthProvider } from './contexts/AuthContext';
+import { POIProvider } from './contexts/POIContext';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <POIProvider>
+          <App />
+        </POIProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>

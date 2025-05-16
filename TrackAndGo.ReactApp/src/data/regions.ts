@@ -49,6 +49,11 @@ export const regions = [
     name: "Comrat", 
     center: { lat: 46.2946, lng: 28.6565 },
     color: "#0EA5E9" 
+  },
+  { 
+    name: "Edineț", 
+    center: { lat: 48.1708967, lng: 27.2627958 },
+    color: "#0EA5E9" 
   }
 ];
 

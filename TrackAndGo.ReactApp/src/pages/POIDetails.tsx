@@ -11,9 +11,11 @@ import { POI } from '../types/poi';
 import Button from '../components/ui/Button';
 import POICard from '../components/pois/POICard';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { usePOIContext } from '../contexts/POIContext';
 
 const POIDetails = () => {
   const { id } = useParams<{ id: string }>();
+  const { pois } = usePOIContext();
   const [poi, setPoi] = useState<POI | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -26,12 +28,12 @@ const POIDetails = () => {
     setLoading(true);
     
     // Find POI by ID
-    const foundPOI = samplePOIs.find(p => p.id === id);
+    const foundPOI = pois.find(p => p.id === id);
     
     // Find similar POIs (same category or region)
     let similar: POI[] = [];
     if (foundPOI) {
-      similar = samplePOIs
+      similar = pois
         .filter(p => p.id !== id && (p.category === foundPOI.category || p.region === foundPOI.region))
         .slice(0, 3);
     }
@@ -42,7 +44,7 @@ const POIDetails = () => {
       setSimilarPOIs(similar);
       setLoading(false);
     }, 500);
-  }, [id]);
+  }, [id, pois]);
   
   const handlePrevImage = () => {
     if (poi) {
@@ -303,7 +305,7 @@ const POIDetails = () => {
                   <div className="bg-gray-200 h-64 rounded-lg mb-4 overflow-hidden">
                     <iframe 
                       title={`Map of ${poi.name}`}
-                      src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDxample-PLACEHOLDER&q=${poi.location.lat},${poi.location.lng}`}
+                      src={`https://www.google.com/maps?q=${poi.location.lat},${poi.location.lng}&output=embed`}
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}

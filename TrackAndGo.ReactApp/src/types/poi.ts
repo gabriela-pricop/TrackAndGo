@@ -1,5 +1,6 @@
 export interface POI {
   id: string;
+  userId: number,
   name: string;
   description: string;
   category: string;

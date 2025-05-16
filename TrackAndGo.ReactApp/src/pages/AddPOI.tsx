@@ -2,9 +2,11 @@ import { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Upload, MapPin, X, Check, Info } from 'lucide-react';
-import { POIFormData } from '../types/poi';
+import { POI, POIFormData } from '../types/poi';
 import { regions } from '../data/regions';
 import Button from '../components/ui/Button';
+
+import { usePOIContext } from '../contexts/POIContext';
 
 const categories = [
   'Historical',
@@ -45,6 +47,8 @@ const initialFormData: POIFormData = {
 };
 
 const AddPOI = () => {
+  const { addPOI, pois } = usePOIContext();
+
   const [formData, setFormData] = useState<POIFormData>(initialFormData);
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(1);
@@ -140,8 +144,8 @@ const AddPOI = () => {
     } else if (step === 2) {
       if (formData.images.length === 0) newErrors.images = 'At least one image is required';
     } else if (step === 3) {
-      if (formData.location.lat === null) newErrors['location.lat'] = 'Latitude is required';
-      if (formData.location.lng === null) newErrors['location.lng'] = 'Longitude is required';
+      if (formData.location.lat == null) newErrors['location.lat'] = 'Latitude is required';
+      if (formData.location.lng == null) newErrors['location.lng'] = 'Longitude is required';
     }
     
     setErrors(newErrors);
@@ -168,12 +172,58 @@ const AddPOI = () => {
     try {
       // In a real application, you would upload images and submit the form data to your backend
       console.log('Form submitted:', formData);
+
+      // Validate latitude and longitude
+      if (formData.location.lat === null || formData.location.lng === null) {
+        console.error('Latitude and Longitude are required.');
+        return;
+      }
+
+      // Map formData to POI
+      const newPOI: POI = {
+        id: (pois.length + 1).toString(),
+        userId: 1,
+        name: formData.name,
+        description: formData.description,
+        category: formData.category,
+        region: formData.region,
+        location: {
+          lat: formData.location.lat,
+          lng: formData.location.lng,
+        },
+        images: [
+          'https://moldovalive.md/wp-content/uploads/2023/05/cariera-fetesti.jpg',
+          'https://photos.pandatur.md/658c91e62f0813c30ad88f798a5efbb6.jpg',
+          'https://moldovalive.md/wp-content/uploads/2023/05/6-16-920x613-1.jpg'
+        ],
+        createdBy: 'admin',
+        createdAt: new Date().toISOString(),
+        rating: 0.0,
+        reviews: 0,
+        amenities: formData.amenities,
+        contactInfo: {
+          phone: formData.contactInfo.phone,
+          email: formData.contactInfo.email,
+          website: formData.contactInfo.website,
+        },
+        openingHours: {
+          monday: formData.openingHours.monday,
+          tuesday: formData.openingHours.tuesday,
+          wednesday: formData.openingHours.wednesday,
+          thursday: formData.openingHours.thursday,
+          friday: formData.openingHours.friday,
+          saturday: formData.openingHours.saturday,
+          sunday: formData.openingHours.sunday,
+        },
+      };
+
+      addPOI(newPOI);
       
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1500));
       
       // Navigate to the POI details page (in a real app, this would be the newly created POI)
-      navigate('/poi/1');
+      navigate(`/poi/${newPOI.id}`);
     } catch (error) {
       console.error('Error submitting form:', error);
       setErrors({ form: 'Failed to submit form. Please try again.' });

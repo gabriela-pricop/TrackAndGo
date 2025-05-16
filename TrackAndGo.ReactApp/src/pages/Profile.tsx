@@ -1,21 +1,25 @@
-import { useState, useRef, ChangeEvent, FormEvent } from 'react';
+import { useState, useRef, ChangeEvent, FormEvent, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { User, MapPin, Edit2, Upload, LogOut, Calendar, Camera } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { POI } from '../types/poi';
-import { samplePOIs } from '../data/samplePOIs';
 import Button from '../components/ui/Button';
 import POICard from '../components/pois/POICard';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { usePOIContext } from '../contexts/POIContext';
 
 const Profile = () => {
   const { currentUser, updateUserProfile, logout } = useAuth();
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [userPOIs, setUserPOIs] = useState<POI[]>(
-    // For demo purposes, we'll use the first 3 sample POIs
-    samplePOIs.slice(0, 3)
-  );
+  const { pois } = usePOIContext();
+  const [userPOIs, setUserPOIs] = useState<POI[]>([]);
+
+  useEffect(() => {
+    // Filter POIs created by user with ID '1' (hardcoded for now)
+    const filtered = pois.filter(p => p.userId === 1);
+    setUserPOIs(filtered);
+  }, [pois]);
   
   // Form state
   const [formData, setFormData] = useState({

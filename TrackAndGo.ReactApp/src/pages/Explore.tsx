@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MapPin, Filter, Search } from 'lucide-react';
-import { samplePOIs } from '../data/samplePOIs';
-import { POI } from '../types/poi';
 import { useMap } from '../hooks/useMap';
 import MoldovaMap from '../components/map/MoldovaMap';
 import POICard from '../components/pois/POICard';
 import LoadingSpinner from '../components/ui/LoadingSpinner';
+import { usePOIContext } from '../contexts/POIContext';
 
 const Explore = () => {
-  const [pois, setPois] = useState<POI[]>(samplePOIs);
+  const { pois } = usePOIContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const { 
@@ -21,6 +21,18 @@ const Explore = () => {
     categories,
     loading
   } = useMap(pois);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const categoryFromUrl = queryParams.get('category');
+    if (categoryFromUrl && categoryFromUrl !== selectedCategory) {
+      setSelectedCategory(categoryFromUrl);
+      setShowFilters(true);
+    }
+  }, [location.search, selectedCategory, setSelectedCategory]);
 
   // Handle search
   const searchResults = searchTerm.trim() === '' 
@@ -44,6 +56,7 @@ const Explore = () => {
     setSelectedRegion(null);
     setSelectedCategory(null);
     setSearchTerm('');
+    navigate(location.pathname, { replace: true });
   };
 
   // Animation variants

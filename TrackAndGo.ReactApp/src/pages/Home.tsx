@@ -3,11 +3,18 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronRight, Map, Route as RouteIcon, Compass, Camera, Wine, Church, MapPin } from 'lucide-react';
 import { samplePOIs } from '../data/samplePOIs';
+import { usePOIContext } from '../contexts/POIContext';
+import { POI } from '../types/poi';
 
 const Home = () => {
-  const [featuredPOIs, setFeaturedPOIs] = useState(samplePOIs.slice(0, 4));
+  const { pois } = usePOIContext();
+  const [featuredPOIs, setFeaturedPOIs] = useState<POI[]>([]);
   const [scrollY, setScrollY] = useState(0);
   
+  useEffect(() => {
+    setFeaturedPOIs(pois.slice(0, 4));
+  }, [pois]);
+
   // Parallax scrolling effect
   useEffect(() => {
     const handleScroll = () => {
